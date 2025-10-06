@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FluentPath English — 12‑Week Tutoring</title>
+  <meta name="description" content="Modern, inviting sales page for a 12–week English tutoring program. Beginner to Advanced, flexible and results‑focused." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020; --bg2:#0f1630; --card:#0e1729; --ink:#e6f0ff; --muted:#a8b3c8;
+      --brand:#6ee7ff; --brand-2:#a78bfa; --accent:#22d3ee; --ok:#10b981; --warn:#f59e0b;
+      --shadow:0 10px 25px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:radial-gradient(1200px 600px at 10% -10%, rgba(167,139,250,.25), transparent 60%),radial-gradient(800px 500px at 90% -20%, rgba(110,231,255,.18), transparent 55%), var(--bg);} 
+    a{color:inherit}
+    .container{width:min(1100px, 92%);margin-inline:auto}
+    .btn{display:inline-flex;gap:.5rem;align-items:center;border:0;border-radius:14px;padding:.85rem 1.1rem;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#07111f;box-shadow:var(--shadow);text-decoration:none}
+    .btn:hover{transform:translateY(-1px);filter:saturate(1.1)}
+    .btn.ghost{background:transparent;color:var(--ink);border:1px solid rgba(255,255,255,.15)}
+    .tag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(110,231,255,.1);border:1px solid rgba(110,231,255,.25);color:#c8f5ff;padding:.35rem .6rem;border-radius:999px;font-size:.82rem;font-weight:600}
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(11,16,32,.95) 0%, rgba(11,16,32,.65) 100%);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
+    .brand{display:flex;align-items:center;gap:.65rem;font-weight:800;letter-spacing:.2px}
+    .brand-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 0 22px var(--brand)}
+    .nav-links{display:flex;gap:1rem;align-items:center}
+    .nav-links a{opacity:.9;text-decoration:none}
+    .hero{padding:6rem 0 3rem;background:radial-gradient(900px 500px at 70% 10%, rgba(34,211,238,.15), transparent 60%)}
+    .grid{display:grid;gap:1.1rem}
+    .cols-3{grid-template-columns:repeat(3,1fr)}
+    .cols-2{grid-template-columns:repeat(2,1fr)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.2rem;box-shadow:var(--shadow)}
+    h1{font-size:clamp(2rem, 6vw, 3.2rem);line-height:1.05;margin:0 0 .6rem}
+    h2{font-size:clamp(1.4rem, 3vw, 2rem);margin:.2rem 0 .8rem}
+    h3{margin:.2rem 0 .4rem}
+    p{color:var(--muted);line-height:1.6}
+    .hero-wrap{display:grid;gap:1.5rem;grid-template-columns:1.3fr 1fr;align-items:center}
+    .hero .pitch{font-size:1.05rem}
+    .stars{position:absolute;inset:0;pointer-events:none;opacity:.28}
+    .price{font-size:2rem;font-weight:800}
+    .check{color:var(--ok);font-weight:700}
+    .section{padding:3.5rem 0}
+    .list{display:grid;gap:.55rem}
+    .list li{list-style:none;display:flex;gap:.6rem;align-items:flex-start}
+    .list svg{flex:0 0 18px;margin-top:.2rem}
+    .pill{display:inline-block;padding:.35rem .65rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:999px;margin:.2rem .2rem 0 0;font-size:.85rem}
+    .footer{border-top:1px solid rgba(255,255,255,.06);padding:2rem 0;color:#cbd5e1}
+    .kicker{font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#bfe9ff;font-size:.75rem}
+    .cta-row{display:flex;gap:.8rem;flex-wrap:wrap}
+    .calendar{aspect-ratio:16/9;width:100%;border:0;border-radius:16px;box-shadow:var(--shadow);}
+    .faq-item{border-bottom:1px solid rgba(255,255,255,.08);padding:1rem 0}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+    .faq-item.open .faq-a{max-height:400px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    @media (max-width: 900px){
+      .hero-wrap{grid-template-columns:1fr}
+      .cols-3{grid-template-columns:1fr}
+      .cols-2{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
+    }
+    .menu-btn{display:none;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--ink);border-radius:10px;padding:.45rem .6rem}
+    .mobile-menu{display:none;padding:.6rem 0;border-top:1px solid rgba(255,255,255,.08)}
+    .mobile-menu a{display:block;padding:.6rem 0;text-decoration:none;color:var(--ink)}
+  </style>
+</head>
+<body>
+  <svg class="stars" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <defs>
+      <radialGradient id="g1" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="white" stop-opacity=".8"/>
+        <stop offset="100%" stop-color="white" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="10" cy="20" r="0.5" fill="url(#g1)"/>
+    <circle cx="80" cy="10" r="0.7" fill="url(#g1)"/>
+    <circle cx="35" cy="70" r="0.6" fill="url(#g1)"/>
+    <circle cx="90" cy="55" r="0.5" fill="url(#g1)"/>
+    <circle cx="60" cy="40" r="0.6" fill="url(#g1)"/>
+  </svg>
+
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span>FluentPath English</span>
+        </div>
+        <div class="nav-links">
+          <a href="#curriculum">Curriculum</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact" class="btn" style="padding:.55rem .9rem">Get Started</a>
+        </div>
+        <button class="menu-btn" id="menuBtn">Menu</button>
+      </nav>
+      <div class="mobile-menu container" id="mobileMenu">
+        <a href="#curriculum">Curriculum</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-wrap">
+      <div>
+        <span class="tag">Beginner → Advanced • 12‑Week Tracks</span>
+        <h1>Reach confident English in months, not years.</h1>
+        <p class="pitch">A modern, results‑driven tutoring program covering speaking, listening, reading, and writing. Personalized lessons, flexible scheduling, and weekly progress checkpoints. Suitable for school, work, or travel.</p>
+        <div class="cta-row" style="margin-top:1rem">
+          <a href="#pricing" class="btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l8 6v12h-6v-7H10v7H4V9l8-6z"/></svg>
+            See Plans
+          </a>
+          <a href="#curriculum" class="btn ghost">View Curriculum</a>
+        </div>
+        <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
+          <span class="pill">1:1 or Small Group</span>
+          <span class="pill">Weekly Feedback</span>
+          <span class="pill">Homework & Checklists</span>
+          <span class="pill">Placement Test Included</span>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="padding:1.2rem 1.2rem 1rem">
+          <h3 style="margin-top:0">What you’ll master</h3>
+          <div class="grid cols-2" style="margin-top:.4rem">
+            <ul class="list">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Practical conversation</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Clear pronunciation</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Grammar made simple</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Academic & work writing</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Listening strategies</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Test preparation (optional)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="curriculum">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;gap:1rem;align-items:end;flex-wrap:wrap">
+        <div>
+          <div class="kicker">Curriculum Snapshot</div>
+          <h2>Beginner → Intermediate → Advanced</h2>
+          <p>Structured 12‑week tracks per level, with weekly focus on vocabulary, grammar, speaking, listening, reading, and writing. Flexible pacing and make‑up sessions available.</p>
+        </div>
+        <a href="#contact" class="btn ghost">Get placement & schedule</a>
+      </div>
+      <div class="grid cols-3" style="margin-top:1.2rem">
+        <div class="card">
+          <h3>Beginner (A1–A2)</h3>
+          <p>Greetings, daily life, food & shopping, home & places, hobbies, weather, travel, health, past events, future plans.</p>
+          <div class="pill">12 weeks</div>
+        </div>
+        <div class="card">
+          <h3>Intermediate (B1–B2)</h3>
+          <p>Describing people, experiences, goals, opinions, advice, media & tech, nature, storytelling, work & school, culture.</p>
+          <div class="pill">12 weeks</div>
+        </div>
+        <div class="card">
+          <h3>Advanced (C1–C2)</h3>
+          <p>Complex ideas, academic writing, idioms, persuasion, note‑taking, cross‑cultural skills, literary language, analysis.</p>
+          <div class="pill">12 weeks</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="kicker">Pricing</div>
+      <h2>Simple plans that grow with you</h2>
+      <div class="grid cols-3" style="margin-top:1.2rem">
+        <div class="card">
+          <h3>Starter</h3>
+          <div class="price">$39<span class="mono" style="font-size:.9rem;font-weight:600">/session</span></div>
+          <p>1× 60‑min session • homework plan • progress notes</p>
+          <ul class="list">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Flexible scheduling</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Placement test</li>
+          </ul>
+          <a href="#contact" class="btn" style="margin-top:.6rem">Book Starter</a>
+        </div>
+        <div class="card" style="border:1px solid rgba(110,231,255,.35)">
+          <div class="tag" style="margin-bottom:.6rem">Most popular</div>
+          <h3>Growth Pack</h3>
+          <div class="price">$199<span class="mono" style="font-size:.9rem;font-weight:600">/6 sessions</span></div>
+          <p>6× 60‑min sessions • weekly feedback • custom study plan</p>
+          <ul class="list">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Priority scheduling</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Progress dashboard</li>
+          </ul>
+          <a href="#contact" class="btn" style="margin-top:.6rem">Choose Growth</a>
+        </div>
+        <div class="card">
+          <h3>Pro Track</h3>
+          <div class="price">$399<span class="mono" style="font-size:.9rem;font-weight:600">/12 sessions</span></div>
+          <p>12× 60‑min sessions • mock tests • detailed reports</p>
+          <ul class="list">
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Email support</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/></svg> Certification letter</li>
+          </ul>
+          <a href="#contact" class="btn" style="margin-top:.6rem">Start Pro</a>
+        </div>
+      </div>
+      <p style="margin-top:.8rem;color:#cbd5e1">Custom group packages available. Message for details.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid cols-2">
+      <div class="card">
+        <div class="kicker">How it works</div>
+        <h2>Simple steps to get started</h2>
+        <ol style="line-height:1.9;color:var(--muted);padding-left:1.1rem">
+          <li>Take the quick placement & goals quiz.</li>
+          <li>Pick a plan and time that fits your schedule.</li>
+          <li>Start learning with personalized weekly lessons.</li>
+          <li>Track progress with checklists and monthly summaries.</li>
+        </ol>
+        <a href="#contact" class="btn" style="margin-top:.6rem">Take Placement Quiz</a>
+      </div>
+      <div class="card">
+        <div class="kicker">Schedule</div>
+        <h2>Book a free consult</h2>
+        <!-- Replace the iframe src with your Calendly/booking link -->
+        <iframe class="calendar" title="Booking" srcdoc="<style>body{margin:0;background:#0e1729;color:#e6f0ff;font-family:Inter} .box{display:grid;place-items:center;height:100vh} .tag{padding:10px 14px;border:1px solid rgba(255,255,255,.2);border-radius:12px} </style><div class='box'><div class='tag'>Embed your booking widget here</div></div>"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="kicker">FAQ</div>
+      <h2>Answers to common questions</h2>
+      <div class="faq-item">
+        <div class="faq-q"><strong>How many lessons do I need?</strong><span>+</span></div>
+        <div class="faq-a"><p>Most learners see strong progress with 6–12 sessions. We adjust the pace based on your goals.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><strong>Do you offer group lessons?</strong><span>+</span></div>
+        <div class="faq-a"><p>Yes—small groups (2–5). Ask for custom group pricing.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><strong>Is there homework?</strong><span>+</span></div>
+        <div class="faq-a"><p>Short, targeted practice after each lesson with checklists to keep you on track.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><strong>Can I focus on business or exam prep?</strong><span>+</span></div>
+        <div class="faq-a"><p>Absolutely. We tailor units for business English, presentations, email writing, or exam strategies.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container grid cols-2">
+      <div class="card">
+        <div class="kicker">Contact</div>
+        <h2>Let’s build your plan</h2>
+        <p>Tell us your goals and availability. We’ll reply within 24 hours with a placement link and suggested start date.</p>
+        <form class="grid" style="gap:.8rem" onsubmit="event.preventDefault(); this.reset(); alert('Thanks! We\'ll be in touch shortly.');">
+          <input type="text" name="name" placeholder="Full name" required style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)">
+          <input type="email" name="email" placeholder="Email" required style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)">
+          <textarea name="msg" rows="4" placeholder="Goals, level, preferred time…" style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)"></textarea>
+          <button class="btn" type="submit">Request a Call</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="kicker">What students say</div>
+        <blockquote style="margin:0;color:#cfe7ff;line-height:1.7">“Clear, practical lessons. After 8 weeks I felt confident giving a presentation at work.”</blockquote>
+        <p class="mono" style="opacity:.7">— Ana, B1→B2 learner</p>
+        <hr style="border:0;border-top:1px solid rgba(255,255,255,.08);margin:1rem 0">
+        <blockquote style="margin:0;color:#cfe7ff;line-height:1.7">“The curriculum kept me motivated. Loved the weekly checklists & feedback!”</blockquote>
+        <p class="mono" style="opacity:.7">— Jamal, A2→B1 learner</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
+      <div class="brand"><span class="brand-dot"></span><span>FluentPath English</span></div>
+      <div style="opacity:.75">© <span id="y"></span> FluentPath • All rights reserved</div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', ()=>{
+      mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none':'block';
+    });
+
+    // FAQ toggles
+    document.querySelectorAll('.faq-item').forEach(item=>{
+      item.querySelector('.faq-q').addEventListener('click', ()=>{
+        item.classList.toggle('open');
+      })
+    })
+
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
