@@ -267,12 +267,32 @@
         <div class="kicker">Contact</div>
         <h2>Let’s build your plan</h2>
         <p>Tell us your goals and availability. We’ll reply within 24 hours with a placement link and suggested start date.</p>
-        <form class="grid" style="gap:.8rem" onsubmit="event.preventDefault(); this.reset(); alert('Thanks! We\'ll be in touch shortly.');">
-          <input type="text" name="name" placeholder="Full name" required style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)">
-          <input type="email" name="email" placeholder="Email" required style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)">
-          <textarea name="msg" rows="4" placeholder="Goals, level, preferred time…" style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)"></textarea>
-          <button class="btn" type="submit">Request a Call</button>
+        <form class="grid" style="gap:.8rem" id="contactForm"
+          action="https://script.google.com/macros/s/AKfycbxwbxvqdUiId67MbmxarG9i5oM-Uy8os-kKWG4rhURgT3TOgkk3vLMqfsex-L8WAUbXUQ/exec"
+          method="POST" novalidate>
+    
+          <input type="text" name="name" placeholder="Full name" required
+                 style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)">
+        
+          <input type="email" name="email" placeholder="Email" required
+                 style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)">
+        
+          <textarea name="message" rows="4" placeholder="Goals, level, preferred time…"
+                    style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)"></textarea>
+        
+          <!-- Optional extras that will also be sent to your sheet -->
+          <input type="hidden" name="page" value="FluentPath English">
+          <input type="hidden" name="submitted_at" id="submitted_at">
+        
+          <!-- Honeypot anti-spam: must stay empty -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;width:0;padding:0;border:0">
+        
+          <button class="btn" type="submit" id="contactSubmit">Request a Call</button>
+        
+          <!-- Inline status text -->
+          <div id="contactStatus" aria-live="polite" style="font-size:.95rem;opacity:.9"></div>
         </form>
+
       </div>
       <div class="card">
         <div class="kicker">What students say</div>
@@ -310,5 +330,74 @@
     // Year
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
+
+  <script>
+  (function(){
+    // Set client timestamp
+    const ts = document.getElementById('submitted_at');
+    if (ts) ts.value = new Date().toISOString();
+
+    const form   = document.getElementById('contactForm');
+    const status = document.getElementById('contactStatus');
+    const submit = document.getElementById('contactSubmit');
+
+    function setStatus(msg, ok=true){
+      status.textContent = msg;
+      status.style.color = ok ? 'var(--ok)' : '#fca5a5';
+    }
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // HTML5 validity
+      if (!form.checkValidity()){
+        form.reportValidity();
+        return;
+      }
+
+      // Honeypot trip? Pretend success.
+      if (form.querySelector('[name="_gotcha"]').value){
+        setStatus('Thanks! We’ll be in touch within 24 hours.', true);
+        form.reset();
+        return;
+      }
+
+      // Refresh timestamp
+      if (ts) ts.value = new Date().toISOString();
+
+      submit.disabled = true;
+      submit.style.opacity = .7;
+      setStatus('Sending…', true);
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          mode: 'cors',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          setStatus('Thanks! We’ll be in touch within 24 hours.', true);
+          form.reset();
+        } else {
+          // Try to read error
+          let msg = 'Something went wrong. Please try again.';
+          try {
+            const data = await res.json();
+            msg = data?.error || msg;
+          } catch(_) {}
+          setStatus(msg, false);
+        }
+      } catch (err) {
+        setStatus('Network error. Please try again or email us directly.', false);
+      } finally {
+        submit.disabled = false;
+        submit.style.opacity = 1;
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
