@@ -232,7 +232,6 @@
       <div class="card">
         <div class="kicker">Schedule</div>
         <h2>Book a free consult</h2>
-        <!-- Replace the iframe src with your Calendly/booking link -->
         <iframe class="calendar" title="Booking" srcdoc="<style>body{margin:0;background:#0e1729;color:#e6f0ff;font-family:Inter} .box{display:grid;place-items:center;height:100vh} .tag{padding:10px 14px;border:1px solid rgba(255,255,255,.2);border-radius:12px} </style><div class='box'><div class='tag'>Embed your booking widget here</div></div>"></iframe>
       </div>
     </div>
@@ -268,10 +267,13 @@
         <h2>Let’s build your plan</h2>
         <p>Tell us your goals and availability. We’ll reply within 24 hours with a placement link and suggested start date.</p>
 
-        <!-- UPDATED FORM: Posts to your Apps Script Web App -->
+        <!-- Hidden iframe target to avoid CORS but keep no-reload UX -->
+        <iframe name="contact_iframe" id="contact_iframe" style="display:none"></iframe>
+
+        <!-- FORM posts directly to your Apps Script Web App -->
         <form class="grid" style="gap:.8rem" id="contactForm"
               action="https://script.google.com/macros/s/AKfycbxwbxvqdUiId67MbmxarG9i5oM-Uy8os-kKWG4rhURgT3TOgkk3vLMqfsex-L8WAUbXUQ/exec"
-              method="POST" novalidate>
+              method="POST" target="contact_iframe" novalidate>
 
           <input type="text" name="name" placeholder="Full name" required
                  style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)">
@@ -282,7 +284,7 @@
           <textarea name="message" rows="4" placeholder="Goals, level, preferred time…"
                     style="padding:.9rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0e1729;color:var(--ink)"></textarea>
 
-          <!-- Optional extras -->
+          <!-- Optional metadata -->
           <input type="hidden" name="page" value="FluentPath English">
           <input type="hidden" name="submitted_at" id="submitted_at">
 
@@ -333,12 +335,13 @@
     // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ----- CONTACT FORM: AJAX submit to Google Apps Script -----
+    // ----- CONTACT FORM: submit via hidden iframe (CORS-free) -----
     (function(){
       const ts = document.getElementById('submitted_at');
       const form   = document.getElementById('contactForm');
       const status = document.getElementById('contactStatus');
       const submit = document.getElementById('contactSubmit');
+      const iframe = document.getElementById('contact_iframe');
 
       function setStatus(msg, ok=true){
         if (!status) return;
@@ -346,55 +349,42 @@
         status.style.color = ok ? 'var(--ok)' : '#fca5a5';
       }
 
-      form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
+      // track iframe loads: after a submit completes, the iframe loads the GAS response
+      let submitting = false;
+      iframe.addEventListener('load', ()=>{
+        if (!submitting) return; // ignore initial blank load
+        submitting = false;
+        setStatus('Thanks! We’ll be in touch within 24 hours.', true);
+        form.reset();
+        submit.disabled = false;
+        submit.style.opacity = 1;
+      });
 
+      form?.addEventListener('submit', (e) => {
+        // native HTML5 validation
         if (!form.checkValidity()){
+          e.preventDefault();
           form.reportValidity();
           return;
         }
 
-        // Honeypot: if filled, pretend success and bail
+        // honeypot: if tripped, don't actually send
         const hp = form.querySelector('[name="_gotcha"]');
         if (hp && hp.value){
+          e.preventDefault();
           setStatus('Thanks! We’ll be in touch within 24 hours.', true);
           form.reset();
           return;
         }
 
+        // stamp time each submit
         if (ts) ts.value = new Date().toISOString();
 
+        submitting = true;
         submit.disabled = true;
         submit.style.opacity = .7;
         setStatus('Sending…', true);
-
-        try {
-          const res = await fetch(form.action, {
-            method: 'POST',
-            mode: 'cors',
-            body: new FormData(form),
-            headers: { 'Accept': 'application/json' }
-          });
-
-          if (res.ok) {
-            setStatus('Thanks! We’ll be in touch within 24 hours.', true);
-            form.reset();
-          } else {
-            let msg = 'Something went wrong. Please try again.';
-            try {
-              const data = await res.json();
-              if (data && (data.error || data.message)) {
-                msg = data.error || data.message;
-              }
-            } catch(_) {}
-            setStatus(msg, false);
-          }
-        } catch (err) {
-          setStatus('Network error. Please try again or email us directly.', false);
-        } finally {
-          submit.disabled = false;
-          submit.style.opacity = 1;
-        }
+        // let the form post normally to the iframe (no CORS)
       });
     })();
   </script>
